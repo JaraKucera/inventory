@@ -1,3 +1,6 @@
+import display_functions
+
+
 def print_options():
     print("--- Fridge Inventory System ---")
     while True:
@@ -12,14 +15,9 @@ def print_options():
 
         user_input = int(input())
         if user_input == 1:
-            display_all_available_products()
+            display_functions.display_all_available_products()
         elif user_input == 8:
             break
-
-
-def display_all_available_products():
-    print("TODO")
-    #   TODO
 
 
 if __name__ == '__main__':
