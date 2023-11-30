@@ -58,6 +58,23 @@ def display_product_database():
 
 
 def inventory_management():
+    import data_functions
+    print("--- Inventory Management ---")
+    while True:
+        print(" [1] Add new Product")
+        print(" [2] Delete existing Product")
+        print(" [3] Adjust existing Product")
+        print(" [4] Exit")
+
+        user_choice = int(input())
+        if user_choice == 1:
+            data_functions.add_product()
+        elif user_choice == 2:
+            data_functions.delete_product()
+        elif user_choice == 3:
+            data_functions.update_product()
+        elif user_choice == 4:
+            break
     return None
 
 
