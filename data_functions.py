@@ -2,6 +2,11 @@ import json
 
 
 def add_product():
+    """
+    Function for adding a complete new Product to the json file
+    Ensures that no duplicate ID, however, name not primary key
+    :return: True if success, else False
+    """
     print("--- Inventory Management [Add Product] ---")
     fd = open("data.json", 'r')
     ll = fd.read()
@@ -52,15 +57,21 @@ def add_product():
                       }
     else:
         print("Product ID Error")
+        return False
     js = json.dumps(data)
     fd = open("data.json", 'w')
     fd.write(js)
     fd.close()
     print("Product Successfully Added")
-    return None
+    return True
 
 
 def delete_product():
+    """
+    Function for deleting a Product from the JSON file
+    Accepts product name, last found gets deleted
+    :return: True if deleted, False otherwise
+    """
     print("--- Inventory Management [Delete Product] ---")
     fd = open("data.json", 'r')
     ll = fd.read()
@@ -78,11 +89,12 @@ def delete_product():
         print("Product Deleted Successful")
     else:
         print("Error Product not found")
+        return False
     js = json.dumps(data)
     fd = open("data.json", 'w')
     fd.write(js)
     fd.close()
-    return None
+    return True
 
 
 def update_product():
