@@ -1,14 +1,13 @@
-def read_in_data():
-    import json
-    fd = open("data.json", 'r')
-    txt = fd.read()
-    json_data = json.loads(txt)
-    fd.close()
-    return json_data
+import data_functions
 
 
 def data_to_table(search_item, quantity):
-    data = read_in_data()
+    """
+    Function to turn dictionary product data into a table & display it
+    :param search_item: if "all" all products are displayed in table, else only specified product
+    :param quantity: if True, then quantity of items must be more than 0 to be printed out, else all products are printed
+    """
+    data = data_functions.read_in_data()
     from prettytable import PrettyTable
     table = PrettyTable(["Name", "Type", "Quantity", "Date of Purchase", "Date of Expire", "Calories", "Protein", "Fat",
                          "Carbohydrates", "Fiber", "Sugar"])
@@ -41,23 +40,48 @@ def data_to_table(search_item, quantity):
 
 
 def display_all_available_products():
+    """
+    Function calls data_to_table with parameters of "all" and True
+    :return: None
+    """
     data_to_table("all", True)
     return None
 
 
 def display_specific_product():
+    """
+    Function calls data_to_table that displays product based on name
+    :return: None, prints out table to standard out
+    """
     print("Please enter the identifier for which product(s) you want data for: ")
     search_value = str(input()).lower()
     data_to_table(search_value, False)
     return None
 
 
+def display_specific_product_from_argument(product_name):
+    """
+    Function calls data_to_table that displays product based on name
+    :return: None, prints out table to standard out
+    """
+    data_to_table(product_name, False)
+    return None
+
+
 def display_product_database():
+    """
+    Function calls data_to_table with all parameter and False
+    :return:
+    """
     data_to_table("all", False)
     return None
 
 
 def inventory_management():
+    """
+    Prints out new menu for adding, deleting and adjusting products
+    :return: None
+    """
     import data_functions
     print("--- Inventory Management ---")
     while True:
@@ -86,5 +110,4 @@ def display_possible_recipes():
     return None
 
 
-def inventory_management_quantities():
-    return None
+

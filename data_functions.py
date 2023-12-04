@@ -1,5 +1,45 @@
 import json
 
+import display_functions
+
+
+def read_in_data():
+    """
+    Function to read in data from data.json
+    :return: dictionary of product data
+    """
+    import json
+    fd = open("data.json", 'r')
+    txt = fd.read()
+    json_data = json.loads(txt)
+    fd.close()
+    return json_data
+
+
+def write_data(new_data):
+    """
+    Function to write data to data.json
+    :param new_data:
+    """
+    js = json.dumps(new_data)
+    fd = open("data.json", 'w')
+    fd.write(js)
+    fd.close()
+
+
+def find_product_by_name(product_name, data):
+    """
+    Returns ID of product in dictionary by name
+    :param product_name:  of product to find
+    :param data: data dictionary
+    :return:
+    """
+    p_id = -1
+    for k, v in data.items():
+        if str(v['name']) == product_name:
+            p_id = k
+    return p_id
+
 
 def add_product():
     """
@@ -8,11 +48,7 @@ def add_product():
     :return: True if success, else False
     """
     print("--- Inventory Management [Add Product] ---")
-    fd = open("data.json", 'r')
-    ll = fd.read()
-    data = json.loads(ll)
-    fd.close()
-    print(data)
+    data = read_in_data()
     temp_list = list(data.keys())
     p_id = int(temp_list[-1]) + 1
     print(p_id)
@@ -79,10 +115,7 @@ def delete_product():
     fd.close()
     print("Enter Product Name for Deletion: ")
     p_name = input().lower()
-    p_id = 000000
-    for k, v in data.items():
-        if str(v['name']) == p_name:
-            p_id = k
+    p_id = find_product_by_name(p_name, data)
     if p_id in data.keys():
         print("Product to be Deleted : " + str(data[p_id]))
         data.pop(p_id)
@@ -98,4 +131,47 @@ def delete_product():
 
 
 def update_product():
+    """
+    Function to update product , identified by name
+    :return: None
+    """
+    print("--- Inventory Management [Update Product] ---")
+    fd = open("data.json", 'r')
+    ll = fd.read()
+    data = json.loads(ll)
+    fd.close()
+    print("Enter Product Name to Update: ")
+    p_name = input().lower()
+    p_id = find_product_by_name(p_name, data)
+    if p_id == -1:
+        print("Error Item could not be found")
+        return None
+    print(data[p_id])
+    print("Enter value to update: ")
+    update_parameter = input()
+    string_parameters = ['name', 'type', 'quantity-units', 'data-purchase', 'date-expire']
+    int_parameters = ['calories', 'protein', 'fat', 'carbohydrates', 'fiber', 'sugar']
+    if update_parameter in string_parameters:
+        print(
+            "Enter new value for: " + data[p_id]['name'] + " current value to change: " + data[p_id][update_parameter])
+        new_value = input()
+        data[p_id][update_parameter] = new_value
+        write_data(data)
+
+    elif update_parameter in int_parameters:
+        print("Enter new value for: " + data[p_id]['name'] + " current value to change: " + str(
+            data[p_id][update_parameter]))
+        new_value = int(input())
+        data[p_id][update_parameter] = new_value
+        write_data(data)
+    else:
+        print("Error Unrecognised parameter")
+        return None
+    print("Success: Product Updated: ")
+    display_functions.display_specific_product_from_argument(data[p_id]['name'])
+    return None
+
+
+def inventory_management_quantities():
+
     return None

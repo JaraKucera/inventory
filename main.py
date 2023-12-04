@@ -1,7 +1,11 @@
+import data_functions
 import display_functions
 
 
 def print_options():
+    """
+    Function which prints out all available options to the user
+    """
     print("--- Fridge Inventory System ---")
     while True:
         print(" [1] Display all available Products")
@@ -27,7 +31,7 @@ def print_options():
         elif user_input == 6:
             display_functions.display_possible_recipes()
         elif user_input == 7:
-            display_functions.inventory_management_quantities()
+            data_functions.inventory_management_quantities()
         elif user_input == 8:
             break
 
