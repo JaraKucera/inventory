@@ -51,8 +51,6 @@ def add_product():
     data = read_in_data()
     temp_list = list(data.keys())
     p_id = int(temp_list[-1]) + 1
-    print(p_id)
-    print(data.keys())
     if p_id not in data.keys():
         print("Enter Product Name: ")
         p_name = input().lower()
@@ -93,12 +91,11 @@ def add_product():
                       }
     else:
         print("Product ID Error")
+        print("------------------------------------------------")
         return False
-    js = json.dumps(data)
-    fd = open("data.json", 'w')
-    fd.write(js)
-    fd.close()
+    write_data(data)
     print("Product Successfully Added")
+    print("------------------------------------------------")
     return True
 
 
@@ -109,10 +106,7 @@ def delete_product():
     :return: True if deleted, False otherwise
     """
     print("--- Inventory Management [Delete Product] ---")
-    fd = open("data.json", 'r')
-    ll = fd.read()
-    data = json.loads(ll)
-    fd.close()
+    data = read_in_data()
     print("Enter Product Name for Deletion: ")
     p_name = input().lower()
     p_id = find_product_by_name(p_name, data)
@@ -122,11 +116,10 @@ def delete_product():
         print("Product Deleted Successful")
     else:
         print("Error Product not found")
+        print("------------------------------------------------")
         return False
-    js = json.dumps(data)
-    fd = open("data.json", 'w')
-    fd.write(js)
-    fd.close()
+    write_data(data)
+    print("------------------------------------------------")
     return True
 
 
@@ -136,15 +129,13 @@ def update_product():
     :return: None
     """
     print("--- Inventory Management [Update Product] ---")
-    fd = open("data.json", 'r')
-    ll = fd.read()
-    data = json.loads(ll)
-    fd.close()
+    data = read_in_data()
     print("Enter Product Name to Update: ")
     p_name = input().lower()
     p_id = find_product_by_name(p_name, data)
     if p_id == -1:
         print("Error Item could not be found")
+        print("------------------------------------------------")
         return None
     print(data[p_id])
     print("Enter value to update: ")
@@ -166,12 +157,35 @@ def update_product():
         write_data(data)
     else:
         print("Error Unrecognised parameter")
+        print("------------------------------------------------")
         return None
     print("Success: Product Updated: ")
     display_functions.display_specific_product_from_argument(data[p_id]['name'])
+    print("------------------------------------------------")
     return None
 
 
 def inventory_management_quantities():
-
-    return None
+    """
+    Function used to update quantity of products
+    :return: True if successful, False if error
+    """
+    print("--- Inventory Management [Update Quantities] ---")
+    data = read_in_data()
+    print("Please enter product name: ")
+    p_name = input().lower()
+    p_id = find_product_by_name(p_name, data)
+    if p_id in data.keys():
+        print("Please enter the number by which you wish to adjust the quantity of "+str(data[p_id]['name'])+"i.e 1 "
+                                                                                                             "or -1")
+        print("Current quantity: "+str(data[p_id]['quantity'])+" "+str(data[p_id]['quantity-units']))
+        adjustment = int(input())
+        data[p_id]['quantity'] += adjustment
+        write_data(data)
+        print("Updated quantity: "+str(data[p_id]['quantity'])+" "+str(data[p_id]['quantity-units']))
+    else:
+        print("Error Product not found")
+        print("------------------------------------------------")
+        return False
+    print("------------------------------------------------")
+    return True

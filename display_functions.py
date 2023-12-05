@@ -1,3 +1,5 @@
+import time
+
 import data_functions
 
 
@@ -103,11 +105,23 @@ def inventory_management():
 
 
 def display_ood_products():
+    from datetime import datetime
+    current_date = time.strptime(str(datetime.today().strftime('%d/%m/%Y')), "%d/%m/%Y")
+    data = data_functions.read_in_data()
+    from prettytable import PrettyTable
+    table = PrettyTable(["Name", "Type", "Quantity", "Date of Purchase", "Date of Expire", "Calories", "Protein", "Fat",
+                         "Carbohydrates", "Fiber", "Sugar"])
+    for k, v in data.items():
+        if v['quantity'] > 0:
+            expire_date = time.strptime(str(v['date-expire']), "%d/%m/%Y")
+            if expire_date < current_date:
+                table.add_row(
+                    [v['name'].title(), v['type'].title(), str(v['quantity']), v['date-purchase'], v['date-expire'],
+                     str(v['calories']), str(v['protein']), str(v['fat']), str(v['carbohydrates']), str(v['fiber']),
+                     str(v['sugar'])])
+    print(table, end="\n\n\n")
     return None
 
 
 def display_possible_recipes():
     return None
-
-
-
