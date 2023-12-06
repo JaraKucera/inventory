@@ -16,6 +16,15 @@ def read_in_data():
     return json_data
 
 
+def read_in_recipes():
+    import json
+    fd = open("data_recipe.json", 'r')
+    txt = fd.read()
+    json_data = json.loads(txt)
+    fd.close()
+    return json_data
+
+
 def write_data(new_data):
     """
     Function to write data to data.json
@@ -23,6 +32,13 @@ def write_data(new_data):
     """
     js = json.dumps(new_data)
     fd = open("data.json", 'w')
+    fd.write(js)
+    fd.close()
+
+
+def write_data_recipes(new_data):
+    js = json.dumps(new_data)
+    fd = open("data-recipe.json", 'w')
     fd.write(js)
     fd.close()
 
@@ -176,16 +192,28 @@ def inventory_management_quantities():
     p_name = input().lower()
     p_id = find_product_by_name(p_name, data)
     if p_id in data.keys():
-        print("Please enter the number by which you wish to adjust the quantity of "+str(data[p_id]['name'])+"i.e 1 "
-                                                                                                             "or -1")
-        print("Current quantity: "+str(data[p_id]['quantity'])+" "+str(data[p_id]['quantity-units']))
+        print(
+            "Please enter the number by which you wish to adjust the quantity of " + str(data[p_id]['name']) + "i.e 1 "
+                                                                                                               "or -1")
+        print("Current quantity: " + str(data[p_id]['quantity']) + " " + str(data[p_id]['quantity-units']))
         adjustment = int(input())
         data[p_id]['quantity'] += adjustment
         write_data(data)
-        print("Updated quantity: "+str(data[p_id]['quantity'])+" "+str(data[p_id]['quantity-units']))
+        print("Updated quantity: " + str(data[p_id]['quantity']) + " " + str(data[p_id]['quantity-units']))
     else:
         print("Error Product not found")
         print("------------------------------------------------")
         return False
     print("------------------------------------------------")
     return True
+
+
+def data_names_to_list(data, in_stock):
+    list_name = []
+    for k, v in data.items():
+        if in_stock:
+            if v['quantity'] > 0:
+                list_name.append(v['name'])
+        else:
+            list_name.append(v['name'])
+    return list_name

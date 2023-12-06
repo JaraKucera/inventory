@@ -3,11 +3,44 @@ import time
 import data_functions
 
 
+def recipe_to_table(search_item, possible):
+    data_rep = data_functions.read_in_recipes()
+    from prettytable import PrettyTable
+    table = PrettyTable(
+        ["Name", "Total Calories", "Servings", "Preparation Time", "Cooking Time", "Difficulty", "Cuisine Type",
+         "Allergens"])
+    data = data_functions.read_in_data()
+    in_fridge = data_functions.data_names_to_list(data, True)
+    for k, v in data_rep.items():
+        if possible:
+            if search_item == "all":
+                if set(v['required_ingredients']).issubset(set(in_fridge)):
+                    table.add_row((v['name'].title(), str(v['total_calories']), str(v['servings']),
+                                   str(v['preparation_time']),str(v['cooking_time']), v['difficulty'], v['cuisine_type'], v['allergens']))
+            else:
+                if v['name'] == search_item:
+                    if set(v['required_ingredients']).issubset(set(in_fridge)):
+                        table.add_row((v['name'].title(), str(v['total_calories']), str(v['servings']),
+                                       str(v['preparation_time']), str(v['cooking_time']), v['difficulty'],
+                                       v['cuisine_type'], v['allergens']))
+        else:
+            if search_item == "all":
+                table.add_row((v['name'].title(), str(v['total_calories']), str(v['servings']),
+                               str(v['preparation_time']), str(v['cooking_time']), v['difficulty'], v['cuisine_type'],
+                               v['allergens']))
+            else:
+                if v['name'] == search_item:
+                    table.add_row((v['name'].title(), str(v['total_calories']), str(v['servings']),
+                                   str(v['preparation_time']), str(v['cooking_time']), v['difficulty'],
+                                   v['cuisine_type'], v['allergens']))
+    print(table, end="\n\n\n")
+
+
 def data_to_table(search_item, quantity):
     """
-    Function to turn dictionary product data into a table & display it
-    :param search_item: if "all" all products are displayed in table, else only specified product
-    :param quantity: if True, then quantity of items must be more than 0 to be printed out, else all products are printed
+    Function to turn dictionary product data into a table & display it :param search_item: if "all" all products are
+    displayed in table, else only specified product :param quantity: if True, then quantity of items must be more
+    than 0 to be printed out, else all products are printed
     """
     data = data_functions.read_in_data()
     from prettytable import PrettyTable
@@ -124,4 +157,10 @@ def display_ood_products():
 
 
 def display_possible_recipes():
+    recipe_to_table("all", True)
+    return None
+
+
+def display_all_recipes():
+    recipe_to_table("all", False)
     return None

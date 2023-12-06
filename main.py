@@ -14,8 +14,9 @@ def print_options():
         print(" [4] Product inventory management")
         print(" [5] Display out of date Products")
         print(" [6] Display all possible recipes")
-        print(" [7] Update quantities")
-        print(" [8] Exit")
+        print(" [7] Display all recipes")
+        print(" [8] Update quantities")
+        print(" [9] Exit")
 
         user_input = int(input())
         if user_input == 1:
@@ -31,8 +32,10 @@ def print_options():
         elif user_input == 6:
             display_functions.display_possible_recipes()
         elif user_input == 7:
-            data_functions.inventory_management_quantities()
+            display_functions.display_all_recipes()
         elif user_input == 8:
+            data_functions.inventory_management_quantities()
+        elif user_input == 9:
             break
 
 
