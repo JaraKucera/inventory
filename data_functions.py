@@ -17,6 +17,10 @@ def read_in_data():
 
 
 def read_in_recipes():
+    """
+    Function to read in data from data_recipe.json
+    :return: Dictionary of recipe data
+    """
     import json
     fd = open("data_recipe.json", 'r')
     txt = fd.read()
@@ -28,7 +32,7 @@ def read_in_recipes():
 def write_data(new_data):
     """
     Function to write data to data.json
-    :param new_data:
+    :param new_data: Dictionary of product data
     """
     js = json.dumps(new_data)
     fd = open("data.json", 'w')
@@ -37,6 +41,10 @@ def write_data(new_data):
 
 
 def write_data_recipes(new_data):
+    """
+    Function to write data to data_recipe.json
+    :param new_data: Dictionary of recipe data
+    """
     js = json.dumps(new_data)
     fd = open("data-recipe.json", 'w')
     fd.write(js)
@@ -48,7 +56,7 @@ def find_product_by_name(product_name, data):
     Returns ID of product in dictionary by name
     :param product_name:  of product to find
     :param data: data dictionary
-    :return:
+    :return: product id
     """
     p_id = -1
     for k, v in data.items():
